@@ -21,13 +21,11 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Maven Package
-        run: echo "NAME=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout)" >> $GITHUB_ENV \
-             mvn -B clean package -DskipTests
-      - name: Maven Verify
-        #run: mvn -B clean verify -Pprod
-                #run: mvn -B clean package -DskipTests -Pprod
+        run: echo "NAME=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout)" >> $GITHUB_ENV 
+      - name: Maven Clean
+        run: mvn -B clean package -DskipTests
+      - name: Maven build image
         run: mvn -B -DskipTests -Dspring-boot.build-image.imageName=${{ secrets.DOCKER_USER }}/${{ env.NAME }} org.springframework.boot:spring-boot-maven-plugin:build-image
-
   docker:
     name: Publish - Docker Hub
     runs-on: ubuntu-latest
