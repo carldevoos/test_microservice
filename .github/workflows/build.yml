@@ -49,7 +49,7 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
       - name: Publish Docker image
         env: 
-          DOCKER_IMAGE: '$REPO/${{ env.NAME }}:${{ env.NAME }}'
+          DOCKER_IMAGE: '${{ secrets.DOCKER_USER }}/${{ env.NAME }}:${{ env.TAG }}'
         run: docker push $DOCKER_IMAGE
 
   #redeploy:
